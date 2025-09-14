@@ -1,65 +1,45 @@
 import Image from "next/image";
 import { RxDashboard } from "react-icons/rx";
-import { FiCloud } from "react-icons/fi";
-import { TbBuildingFactory } from "react-icons/tb";
-import { GoVerified } from "react-icons/go";
-import { IoPersonOutline } from "react-icons/io5";
+import { BsDatabaseFill } from "react-icons/bs";
 import { CiLogout } from "react-icons/ci";
-import { IoSettingsOutline } from "react-icons/io5";
 import Link from "next/link";
 
-const Sidebar = () => {
-    return (
-        <div className="flex h-screen bg-black">
-            <div className="bg-[#2A4759] w-64 min-h-full flex flex-col">
-
-                <div className="flex justify-center ">
-                    <Image
-                        src="/Images/carbon-logo.svg"
-                        height={255}
-                        width={255}
-                        alt="carbon logo"
-                        priority
-                    />
-                </div>
-
-
-                <nav className="flex flex-col flex-grow px-8 pt-7">
-                    {[
-                        { href: "#", Icon: RxDashboard, label: "Dashboard" },
-                        { href: "#", Icon: FiCloud, label: "Emissions" },
-                        { href: "#", Icon: TbBuildingFactory, label: "Factories" },
-                        { href: "#", Icon: GoVerified, label: "Compliance" },
-                    ].map(({ href, Icon, label }) => (
-                        <Link
-                            key={label}
-                            href={href}
-                            className="flex items-center space-x-3 mb-5 group p-2 rounded-md hover:bg-[#F79B72] hover:mr-5 transition-all"
-                        >
-                            <Icon className="h-8 w-8 text-[#F79B72] group-hover:text-[#2A4759]" />
-                            <h1 className="text-[22px] text-white">{label}</h1>
-                        </Link>
-                    ))}
-
-
-                    <div className="flex-grow" />
-
-
-                    <Link
-                        href="#"
-                        className="flex items-center space-x-3 mb-8 group p-2 rounded-md hover:bg-[#F79B72] hover:mr-5 transition-all"
-                    >
-                        <CiLogout className="h-8 w-8 text-[#F79B72] group-hover:text-[#2A4759]" />
-                        <h1 className="text-[22px] text-white">Log Out</h1>
-                    </Link>
-                </nav>
-            </div>
-            <div className="flex justify-end  w-16 bg-black py-4 space-x-4 ml-350 mt-3">
-                <IoSettingsOutline className="text-[#F79B72] w-7 h-7 cursor-pointer hover:text-[#2A4759]" />
-                <IoPersonOutline className="text-[#F79B72] w-7 h-7 cursor-pointer hover:text-[#2A4759]" />
-            </div>
-        </div>
-    );
-};
+const Sidebar = () => (
+  <aside className="bg-[#214A5A] w-64 min-h-screen flex flex-col">
+    <div className="flex flex-col">
+      <div className="flex justify-center items-center bg-[#e7e7e7] w-full h-[150px]">
+        <Image
+          src="/Images/carbon-logo.svg"
+          width={256}
+          height={128}
+          alt="carbon logo"
+          style={{ width: "100%", height: "auto", objectFit: "contain" }}
+          priority
+        />
+      </div>
+      <div style={{ marginBottom: "38px" }} />
+    </div>
+    <nav className="flex flex-col flex-grow px-8 pt-4 gap-2">
+      <Link href="#"
+        className="flex items-center space-x-3 p-2 rounded-md cursor-pointer transition-all
+          hover:bg-[#13303A] hover:text-[#F79B72]">
+        <RxDashboard className="h-8 w-8 text-[#F79B72] group-hover:text-[#13303A]" />
+        <span className="text-[22px] text-white group-hover:text-[#F79B72]">Dashboard</span>
+      </Link>
+      <Link href="/records"
+        className="flex items-center space-x-3 p-2 rounded-md bg-[#F79B72] text-[#214A5A] font-semibold cursor-pointer">
+        <BsDatabaseFill className="h-8 w-8 text-[#214A5A]" />
+        <span className="text-[22px]">Records</span>
+      </Link>
+      <div className="flex-grow" />
+      <Link href="#"
+        className="flex items-center space-x-3 mb-8 p-2 rounded-md cursor-pointer transition-all
+          hover:bg-[#13303A] hover:text-[#F79B72]">
+        <CiLogout className="h-8 w-8 text-[#F79B72] group-hover:text-[#13303A]" />
+        <span className="text-[22px] text-white group-hover:text-[#F79B72]">Log Out</span>
+      </Link>
+    </nav>
+  </aside>
+);
 
 export default Sidebar;

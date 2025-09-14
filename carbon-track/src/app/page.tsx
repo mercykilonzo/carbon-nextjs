@@ -1,12 +1,11 @@
+"use client";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
-import MqttSubscriber from './hivemq/mqtt_client'
-import Sidebar from './sharedComponents/SideBar';
-export default function Home() {
-  return (
-    <div>
-      <h1>HiveMQ MQTT Data Subscriber</h1>
-      <Sidebar/>
-      <MqttSubscriber />
-    </div>
-  );
+export default function HomeRedirect() {
+  const router = useRouter();
+  useEffect(() => {
+    router.replace("/records");
+  }, [router]);
+  return null;
 }
