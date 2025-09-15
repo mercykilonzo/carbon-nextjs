@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { EnergyEntryFormData, EnergyEntry } from "@/types";
+import { EnergyEntryFormData, EnergyEntry } from "../types";
 import { FiChevronDown } from "react-icons/fi";
 
 const ENERGY_OPTIONS = [
@@ -55,9 +55,26 @@ const ModalForm: React.FC<ModalFormProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div ref={modalRef} className={`rounded-xl shadow-2xl w-full max-w-lg flex flex-col gap-3 px-10 py-10 ${isDark ? "bg-[#214A5A]" : "bg-[#e7e7e7]"}`}>
-        <h2 className={`text-2xl font-bold mb-2 ${isDark ? "text-white" : "text-[#214A5A]"}`}>{initialData ? "Edit Energy Consumption" : "Log Energy Consumption"}</h2>
-        <p className={`mb-6 text-lg font-medium ${isDark ? "text-gray-200" : "text-[#214A5A]"}`}>Enter the factory’s energy usages</p>
+      <div
+        ref={modalRef}
+        className={`rounded-xl shadow-2xl w-full max-w-lg flex flex-col gap-3 px-10 py-10 ${
+          isDark ? "bg-[#214A5A]" : "bg-[#e7e7e7]"
+        }`}
+      >
+        <h2
+          className={`text-2xl font-bold mb-2 ${
+            isDark ? "text-white" : "text-[#214A5A]"
+          }`}
+        >
+          {initialData ? "Edit Energy Consumption" : "Log Energy Consumption"}
+        </h2>
+        <p
+          className={`mb-6 text-lg font-medium ${
+            isDark ? "text-gray-200" : "text-[#214A5A]"
+          }`}
+        >
+          Enter the factory’s energy usages
+        </p>
         <form
           className="flex flex-col gap-6"
           onSubmit={e => {
@@ -72,46 +89,78 @@ const ModalForm: React.FC<ModalFormProps> = ({
           }}
         >
           <div>
-            <label className={`block mb-2 text-lg font-medium ${isDark ? "text-white" : "text-[#214A5A]"}`}>Energy Type</label>
+            <label
+              className={`block mb-2 text-lg font-medium ${
+                isDark ? "text-white" : "text-[#214A5A]"
+              }`}
+            >
+              Energy Type
+            </label>
             <div className="relative">
               <select
                 value={energyType}
                 onChange={e => setEnergyType(e.target.value)}
-                className="w-full rounded px-4 py-3 pr-10 bg-[#e7e7e7] text-[#214A5A] text-lg focus:outline-none cursor-pointer appearance-none"
+                className={`w-full rounded px-4 py-3 pr-10 ${
+                  isDark
+                    ? "bg-[#13303A] text-white"
+                    : "bg-[#e7e7e7] text-[#214A5A]"
+                } text-lg focus:outline-none cursor-pointer appearance-none`}
                 style={{ minWidth: 0 }}
               >
                 {ENERGY_OPTIONS.map(opt => (
-                  <option key={opt} value={opt}>{opt}</option>
+                  <option key={opt} value={opt}>
+                    {opt}
+                  </option>
                 ))}
               </select>
-              <FiChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#214A5A] pointer-events-none" />
+              <FiChevronDown className={`absolute right-3 top-1/2 transform -translate-y-1/2 ${isDark ? "text-white" : "text-[#214A5A]"} pointer-events-none`} />
             </div>
           </div>
           <div>
-            <label className={`block mb-2 text-lg font-medium ${isDark ? "text-white" : "text-[#214A5A]"}`}>Amount used</label>
+            <label
+              className={`block mb-2 text-lg font-medium ${
+                isDark ? "text-white" : "text-[#214A5A]"
+              }`}
+            >
+              Amount used
+            </label>
             <input
               type="number"
               value={energyAmount}
               onChange={e => setEnergyAmount(e.target.value)}
-              className="w-full rounded px-4 py-3 bg-[#e7e7e7] text-[#214A5A] text-lg focus:outline-none cursor-pointer"
+              className={`w-full rounded px-4 py-3 ${
+                isDark
+                  ? "bg-[#13303A] text-white"
+                  : "bg-[#e7e7e7] text-[#214A5A]"
+              } text-lg focus:outline-none cursor-pointer`}
               placeholder="0"
               required
             />
           </div>
           <div>
-            <label className={`block mb-2 text-lg font-medium ${isDark ? "text-white" : "text-[#214A5A]"}`}>Tea Produced</label>
+            <label
+              className={`block mb-2 text-lg font-medium ${
+                isDark ? "text-white" : "text-[#214A5A]"
+              }`}
+            >
+              Tea Produced
+            </label>
             <input
               type="number"
               value={teaProduced}
               onChange={e => setTeaProduced(e.target.value)}
-              className="w-full rounded px-4 py-3 bg-[#e7e7e7] text-[#214A5A] text-lg focus:outline-none cursor-pointer"
+              className={`w-full rounded px-4 py-3 ${
+                isDark
+                  ? "bg-[#13303A] text-white"
+                  : "bg-[#e7e7e7] text-[#214A5A]"
+              } text-lg focus:outline-none cursor-pointer`}
               placeholder="Amount in kgs"
               required
             />
           </div>
           <button
             type="submit"
-            className="w-full mt-6 bg-[#F79B72] text-[#214A5A] font-bold py-4 rounded-lg text-xl hover:bg-[#c76c4c] transition-colors cursor-pointer"
+            className="w-full mt-6 bg-[#F79B72] text-white font-bold py-4 rounded-lg text-xl hover:bg-[#c76c4c] transition-colors cursor-pointer"
           >
             {initialData ? "Update Record" : "Log Consumption"}
           </button>
