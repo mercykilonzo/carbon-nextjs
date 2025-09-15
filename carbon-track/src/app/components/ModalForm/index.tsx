@@ -1,12 +1,23 @@
 import React, { useState, useEffect, useRef } from "react";
-import { EnergyEntryFormData, EnergyEntry } from "../types";
 import { FiChevronDown } from "react-icons/fi";
+
+interface EnergyEntryFormData {
+  energy_type: string;
+  energy_amount: string;
+  tea_processed_amount: string;
+}
+
+interface EnergyEntry extends EnergyEntryFormData {
+  data_id?: string;
+  created_at?: string;
+  co2_equivalent?: string;
+}
 
 const ENERGY_OPTIONS = [
   "Electricity (Kwh)",
   "Firewood (Kg)",
   "Diesel (Litre)",
-  "Solar (Kwh)"
+  "Solar (Kwh)",
 ];
 
 interface ModalFormProps {
@@ -18,11 +29,15 @@ interface ModalFormProps {
 }
 
 const ModalForm: React.FC<ModalFormProps> = ({
-  open, onClose, initialData, onSubmit, isDark
+  open,
+  onClose,
+  initialData,
+  onSubmit,
+  isDark,
 }) => {
-  const [energyType, setEnergyType] = useState(initialData?.energy_type || ENERGY_OPTIONS[0]);
-  const [energyAmount, setEnergyAmount] = useState(initialData?.energy_amount || "");
-  const [teaProduced, setTeaProduced] = useState(initialData?.tea_processed_amount || "");
+  const [energyType, setEnergyType] = useState(ENERGY_OPTIONS[0]);
+  const [energyAmount, setEnergyAmount] = useState("");
+  const [teaProduced, setTeaProduced] = useState("");
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -83,8 +98,6 @@ const ModalForm: React.FC<ModalFormProps> = ({
               energy_type: energyType,
               energy_amount: energyAmount,
               tea_processed_amount: teaProduced,
-              created_at: initialData?.created_at ?? new Date().toISOString(),
-              co2_equivalent: initialData?.co2_equivalent ?? ""
             });
           }}
         >

@@ -1,7 +1,13 @@
 import React from "react";
 import { BsDatabaseFill } from "react-icons/bs";
 
-const EmptyState = ({ onCreate, isDark }: { onCreate: () => void, isDark: boolean }) => (
+const EmptyState = ({
+  onCreate,
+  isDark,
+}: {
+  onCreate: () => void;
+  isDark: boolean;
+}) => (
   <div className="flex items-center justify-center w-full h-[410px]" style={{ marginTop: "76px" }}>
     <div className={`rounded-[16px] px-16 py-24 flex flex-col items-center w-full shadow-xl max-w-4xl ${isDark ? "bg-[#214A5A]" : "bg-[#e7e7e7]"}`}>
       <BsDatabaseFill className="text-[#F79B72] mb-8" size={100} />
