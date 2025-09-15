@@ -1,46 +1,27 @@
 import { useState, useEffect } from "react";
-import { fetchRecords, EnergyEntry } from "../utils/fetchRecords";
+import { fetchRecords } from "@/app/utils/fetchRecords";
 
-const PAGE_SIZE = 7;
-
-interface UseRecordsProps {
-  search: string;
-  page: number;
-}
-
-export default function useFetchRecords({ search, page }: UseRecordsProps) {
-  const [records, setRecords] = useState<EnergyEntry[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [totalPages, setTotalPages] = useState(1);
+export default function useFetchRecords(page: number, pageSize: number) {
+  const [records, setRecords] = useState<any[]>([]);
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [totalCount, setTotalCount] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const getRecords = async () => {
-      setLoading(true);
-      try {
-        const allRecords: EnergyEntry[] = await fetchRecords();
-        let filtered = allRecords;
-        if (search) {
-          const s = search.toLowerCase();
-          filtered = filtered.filter(
-            (r: EnergyEntry) =>
-              r.energy_type?.toLowerCase().includes(s) ||
-              r.energy_amount?.toLowerCase().includes(s) ||
-              r.tea_processed_amount?.toLowerCase().includes(s)
-          );
-        }
-        const total = filtered.length;
-        const startIdx = (page - 1) * PAGE_SIZE;
-        const endIdx = startIdx + PAGE_SIZE;
-        setRecords(filtered.slice(startIdx, endIdx));
-        setTotalPages(Math.max(1, Math.ceil(total / PAGE_SIZE)));
-      } catch (e) {
+    setLoading(true);
+    fetchRecords(page, pageSize)
+      .then(data => {
+        setRecords(data.records);
+        setTotalPages(data.totalPages);
+        setTotalCount(data.totalCount);
+      })
+      .catch(() => {
         setRecords([]);
         setTotalPages(1);
-      }
-      setLoading(false);
-    };
-    getRecords();
-  }, [search, page]);
+        setTotalCount(0);
+      })
+      .finally(() => setLoading(false));
+  }, [page, pageSize]);
 
-  return { records, loading, totalPages };
+  return { records, totalPages, totalCount, loading };
 }

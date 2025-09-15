@@ -1,34 +1,23 @@
-import React, { useEffect } from "react";
-import { AiOutlineCheckCircle } from "react-icons/ai";
+import React from "react";
 
-const SuccessToast = ({
-  message,
-  onClose,
-}: {
+interface SuccessToastProps {
   message: string;
-  onClose: () => void;
+  type?: "success" | "error";
+}
+
+const SuccessToast: React.FC<SuccessToastProps> = ({
+  message,
+  type = "success",
 }) => {
-  useEffect(() => {
-    const timer = setTimeout(onClose, 2500);
-    return () => clearTimeout(timer);
-  }, [onClose]);
+  const baseStyle =
+    "fixed top-6 right-6 px-6 py-3 rounded-lg z-50 min-w-[220px] font-bold text-center shadow-lg transition";
+  const successStyle =
+    "bg-[#2A4759] text-white dark:bg-[#F8B88F] dark:text-[#2A4759]";
+  const errorStyle =
+    "bg-red-600 text-white dark:bg-red-800 dark:text-[#F8B88F]";
   return (
-    <div className="fixed top-6 left-1/2 z-50 flex items-center justify-center w-auto" style={{ transform: "translateX(-50%)" }}>
-      <div className="bg-white rounded-lg shadow-lg px-6 py-4 flex items-center gap-3 min-w-[320px] max-w-md border-2 border-[#214A5A] relative pointer-events-auto">
-        <AiOutlineCheckCircle className="text-[#214A5A]" size={32} />
-        <span className="text-[#214A5A] text-lg">{message}</span>
-        <button onClick={onClose} className="ml-auto text-gray-400 hover:text-[#214A5A] text-2xl font-bold transition-colors">&times;</button>
-        <div className="absolute bottom-0 left-0 h-1 bg-[#214A5A] w-full animate-success-bar"></div>
-      </div>
-      <style>{`
-        @keyframes success-bar {
-          from { width: 100%; }
-          to { width: 0%; }
-        }
-        .animate-success-bar {
-          animation: success-bar 2.3s linear forwards;
-        }
-      `}</style>
+    <div className={`${baseStyle} ${type === "success" ? successStyle : errorStyle}`}>
+      {message}
     </div>
   );
 };

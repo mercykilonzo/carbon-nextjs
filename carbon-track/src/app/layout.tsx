@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Sidebar from "./sharedComponents/SideBar";
+import Sidebar from "./sharedComponents/SideBarFactory";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,9 +15,44 @@ export default function RootLayout({
       <body className="bg-[#181e23]">
         <div className="flex min-h-screen">
           <Sidebar />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 overflow-auto">{children}</main>
         </div>
       </body>
     </html>
   );
 }
+
+// "use client"
+// import React, { useState, useEffect, createContext, useContext } from "react";
+
+// type Theme = "light" | "dark";
+// const ThemeContext = createContext<{ theme: Theme; toggleTheme: () => void }>({
+//   theme: "light",
+//   toggleTheme: () => {},
+// });
+// export const useTheme = () => useContext(ThemeContext);
+
+// export default function RootLayout({ children }: { children: React.ReactNode }) {
+//   const [theme, setTheme] = useState<Theme>("light");
+
+//   useEffect(() => {
+//     if (theme === "dark") {
+//       document.documentElement.classList.add("dark");
+//     } else {
+//       document.documentElement.classList.remove("dark");
+//     }
+//   }, [theme]);
+
+//   const toggleTheme = () =>
+//     setTheme((prev) => (prev === "light" ? "dark" : "light"));
+
+//   return (
+//     <html lang="en">
+//       <body className="min-h-screen overflow-hidden bg-[#e7e7e7] dark:bg-[#183040] transition-colors">
+//         <ThemeContext.Provider value={{ theme, toggleTheme }}>
+//           {children}
+//         </ThemeContext.Provider>
+//       </body>
+//     </html>
+//   );
+// }

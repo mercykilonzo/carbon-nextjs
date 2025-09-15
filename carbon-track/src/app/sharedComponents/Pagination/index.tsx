@@ -1,87 +1,53 @@
 import React, { useState } from "react";
-import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 interface PaginationProps {
-  page: number;
+  currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
-  isDark: boolean;
 }
 
-const Pagination: React.FC<PaginationProps> = ({ page, totalPages, onPageChange, isDark }) => {
-  const [edit, setEdit] = useState(false);
-  const [draftValue, setDraftValue] = useState(page);
+const Pagination: React.FC<PaginationProps> = ({
+  currentPage,
+  totalPages,
+  onPageChange,
+}) => {
+  const [inputValue, setInputValue] = useState<string>(currentPage.toString());
 
-  const handleEdit = () => {
-    setEdit(true);
-    setDraftValue(page);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value.replace(/[^0-9]/g, ""));
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/[^0-9]/g, "");
-    setDraftValue(Number(value));
-  };
-
-  const handleSubmit = () => {
-    if (draftValue >= 1 && draftValue <= totalPages) {
-      onPageChange(draftValue);
-    }
-    setEdit(false);
-  };
-
-  const handleBlur = () => {
-    handleSubmit();
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") handleSubmit();
-    if (e.key === "Escape") setEdit(false);
+  const handleInputBlur = () => {
+    let pageNum = parseInt(inputValue, 10);
+    if (isNaN(pageNum) || pageNum < 1) pageNum = 1;
+    if (pageNum > totalPages) pageNum = totalPages;
+    setInputValue(pageNum.toString());
+    onPageChange(pageNum);
   };
 
   return (
-    <div className="flex items-center justify-center mt-7 gap-6">
+    <div className="flex items-center gap-2 justify-center py-6">
       <button
-        className={`rounded-full p-2 ${page === 1 ? "opacity-50 cursor-not-allowed" : ""}`}
-        onClick={() => page > 1 && onPageChange(page - 1)}
-        disabled={page === 1}
-        aria-label="Previous"
-        style={{ background: isDark ? "#214A5A" : "#F4F6FA", color: isDark ? "#fff" : "#214A5A" }}
+        className="px-4 py-2 rounded bg-[#2A4759] text-white dark:bg-[#F8B88F] dark:text-[#2A4759] hover:bg-[#F79B72] dark:hover:bg-[#2A4759] font-bold transition"
+        disabled={currentPage === 1}
+        onClick={() => onPageChange(currentPage - 1)}
       >
-        <FiChevronLeft size={22} />
+        Prev
       </button>
-      <span className={`text-lg ${isDark ? "text-white" : "text-[#214A5A]"} font-medium`}>
-        Page{" "}
-        {edit ? (
-          <input
-            type="number"
-            value={draftValue}
-            min={1}
-            max={totalPages}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            onKeyDown={handleKeyDown}
-            className={`mx-1 w-10 bg-transparent border-b-2 outline-none text-center ${isDark ? "border-[#F79B72] text-white" : "border-[#214A5A] text-[#214A5A]"}`}
-            autoFocus
-          />
-        ) : (
-          <span
-            className={`mx-1 border-b-2 cursor-pointer ${isDark ? "border-[#F79B72] text-white" : "border-[#214A5A] text-[#214A5A]"}`}
-            onClick={handleEdit}
-            tabIndex={0}
-          >
-            {page}
-          </span>
-        )}
-        {" "}of {totalPages}
-      </span>
+      <input
+        type="text"
+        value={inputValue}
+        onChange={handleInputChange}
+        onBlur={handleInputBlur}
+        className="w-12 text-center rounded border border-gray-300 dark:border-[#F8B88F] bg-[#e7e7e7] dark:bg-[#23313a] text-[#2A4759] dark:text-[#F8B88F] font-bold"
+      />
+      <span className="text-[#2A4759] dark:text-[#F8B88F]">/ {totalPages}</span>
       <button
-        className={`rounded-full p-2 ${page === totalPages ? "opacity-50 cursor-not-allowed" : ""}`}
-        onClick={() => page < totalPages && onPageChange(page + 1)}
-        disabled={page === totalPages}
-        aria-label="Next"
-        style={{ background: isDark ? "#214A5A" : "#F4F6FA", color: isDark ? "#fff" : "#214A5A" }}
+        className="px-4 py-2 rounded bg-[#2A4759] text-white dark:bg-[#F8B88F] dark:text-[#2A4759] hover:bg-[#F79B72] dark:hover:bg-[#2A4759] font-bold transition"
+        disabled={currentPage === totalPages}
+        onClick={() => onPageChange(currentPage + 1)}
       >
-        <FiChevronRight size={22} />
+        Next
       </button>
     </div>
   );
