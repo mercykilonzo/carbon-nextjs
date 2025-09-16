@@ -8,4 +8,6 @@ export default function HomeRedirect() {
     router.replace("/records");
   }, [router]);
   return null;
+
+  <MqttSubscriber />
 }
